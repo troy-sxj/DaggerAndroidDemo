@@ -1,7 +1,10 @@
 package com.mika.dagger.main;
 
+import com.mika.dagger.data.GetUserDataRepositoryImpl;
+
 import dagger.Binds;
 import dagger.Module;
+import dagger.Provides;
 
 /**
  * @Author: mika
@@ -12,6 +15,17 @@ import dagger.Module;
 public abstract class MainModule {
 
     @Binds
-    abstract MainPresenter mainPresenterImpl(MainPresenterImpl mainPresenter);
+    abstract MainView mainView(MainActivity mainActivity);
+
+    /**
+     * 注意： Provides方法一定要用static修饰
+     * @param mainView
+     * @param getUserDataRepository
+     * @return
+     */
+    @Provides
+    static MainPresenter mainPresenter(MainView mainView, GetUserDataRepositoryImpl getUserDataRepository){
+        return new MainPresenter(mainView, getUserDataRepository);
+    }
 
 }
